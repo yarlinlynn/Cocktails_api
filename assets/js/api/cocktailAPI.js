@@ -35,4 +35,21 @@ export default class CocktailAPI {
     // fetch drink based on category
 
     // fetch drink based based on ID opening up a details modal
+    async fetchDrinkId(id) {
+        try{
+            const response = await fetch(`${this.baseUrl}/lookup.php?i=${id}`)
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const text = await response.text(); 
+            if (!text) {
+            throw new Error("Empty response from API");
+            }
+
+            const data = JSON.parse(text);
+            return data.drinks ? data.drinks[0] : null;
+        } catch(error) {
+            console.error("Error fetching drink details:", error);
+        }
+    }
 }

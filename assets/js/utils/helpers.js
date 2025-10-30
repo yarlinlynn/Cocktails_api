@@ -18,7 +18,7 @@ export async function loadDrinks(api, container) {
 
         loadingState.remove();
 
-        renderDrinkToDom(drinks, container);
+        renderDrinkToDom(drinks, container, api);
     } catch (error) {
         console.error("Error loading drinks:", error);
         loadingState.innerHTML = `<p class="loading-text">Failed to load drinks.</p>`;
