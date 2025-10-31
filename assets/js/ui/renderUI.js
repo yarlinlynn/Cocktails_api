@@ -2,8 +2,7 @@
 // import gsap from "https://cdn.jsdelivr.net/npm/gsap@3.12.5/index.js";
 // import Draggable from "https://cdn.jsdelivr.net/npm/gsap@3.12.5/Draggable.js";
 // gsap.registerPlugin(Draggable);
-
-// render drinks fetched from API to the DOM
+import openDrinkDetails from '../ui/modalUI.js';
 
 export function renderDrinkToDom(drinks, container, api) {
   if (!drinks || drinks.length === 0) {
@@ -11,6 +10,7 @@ export function renderDrinkToDom(drinks, container, api) {
     return;
   }
 
+  // Render drinks list
   container.innerHTML = drinks
     .map(drink => `
       <section class="drink" data-id="${drink.idDrink}">
@@ -20,17 +20,13 @@ export function renderDrinkToDom(drinks, container, api) {
     `)
     .join("");
 
-    const drinkElements = document.querySelectorAll(".drink");
-    drinkElements.forEach(element => {
-        element.addEventListener("click", async () => {
-            const drinkId = element.dataset.id;
-            // drinkDetailsPage(drinkId)
-            try {
-                const drinkDetails = await api.fetchDrinkId(drinkId);
-                console.log(drinkDetails); 
-            } catch (error) {
-                console.error("Error fetching drink details:", error);
-            }
-        })
-    })
+  // Add click listeners
+  const drinkElements = container.querySelectorAll(".drink");
+  drinkElements.forEach(element => {
+    element.addEventListener("click", async () => {
+      const drinkId = element.dataset.id;
+      await openDrinkDetails(drinkId, api); 
+    });
+  });
 }
+
